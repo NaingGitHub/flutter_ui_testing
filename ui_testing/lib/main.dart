@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'constraints_sample.dart';
+import 'list_design.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -11,10 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Tutotial1(),
+      home: const ListDesign(),
     );
   }
 }
