@@ -1,6 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -9,8 +9,11 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage>
+    with TickerProviderStateMixin {
   late ScrollController _scrollController;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
   String appBarTitle = '';
   @override
   void initState() {
@@ -21,10 +24,26 @@ class _ProfilePageState extends State<ProfilePage> {
           appBarTitle = _isSliverAppBarExpanded ? '' : 'Emma Watson';
         });
       });
+    _animationController =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+
+    Timer(const Duration(seconds: 1), () {
+      _animationController.forward();
+    });
   }
 
   bool get _isSliverAppBarExpanded {
     return _scrollController.offset < (450 - kToolbarHeight);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,11 +116,14 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Emma Charlotte Duerre Watson was born in Paris, France, to English parents, Jacqueline Luesby and Chris Watson, both lawyers. She moved to Oxfordshire when she was five, where she attended the Dragon School.',
-                    style: TextStyle(
-                        color: Colors.grey, fontSize: 18, height: 1.4),
-                    softWrap: true,
+                  FadeTransition(
+                    opacity: _animation,
+                    child: const Text(
+                      'Emma Charlotte Duerre Watson was born in Paris, France, to English parents, Jacqueline Luesby and Chris Watson, both lawyers. She moved to Oxfordshire when she was five, where she attended the Dragon School.',
+                      style: TextStyle(
+                          color: Colors.grey, fontSize: 18, height: 1.4),
+                      softWrap: true,
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
