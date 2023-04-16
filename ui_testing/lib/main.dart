@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui_testing/profile_page.dart';
 
 import 'constraints_sample.dart';
 import 'list_design.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ListDesign(),
+      home: const ProfilePage(),
     );
   }
 }
